@@ -75,7 +75,6 @@ export async function write(src, dest, context, config) {
 	}
 
 	nunjucks.configure(Object.assign({}, { autoescape: true, trimBlocks: true, lstripBlocks: true }, config))
-
 	const content = nunjucks.render(src, context)
 	await fs.outputFile(dest, content)
 }
