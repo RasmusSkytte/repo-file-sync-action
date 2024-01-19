@@ -69,10 +69,13 @@ export async function pathIsDirectory(path) {
 	return stat.isDirectory()
 }
 
-export async function write(src, dest, context) {
+export async function write(src, dest, context, config) {
 	if (typeof context !== 'object') {
 		context = {}
 	}
+
+	nunjucks.configure(Object.assign({}, { autoescape: true, trimBlocks: true, lstripBlocks: true }, config))
+
 	const content = nunjucks.render(src, context)
 	await fs.outputFile(dest, content)
 }
@@ -121,12 +124,12 @@ export async function copy(src, dest, isDirectory, file) {
 
 				const srcPath = path.join(src, srcFile)
 				const destPath = path.join(dest, srcFile)
-				await write(srcPath, destPath, file.template)
+				await write(srcPath, destPath, file.template, file.config)
 			}
 		} else {
 			core.debug(`Render file ${ src } to ${ dest }`)
 
-			await write(src, dest, file.template)
+			await write(src, dest, file.template, file.config)
 		}
 	} else {
 		core.debug(`Copy ${ src } to ${ dest }`)

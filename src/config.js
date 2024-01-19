@@ -6,6 +6,7 @@ import { getInput } from 'action-input-parser'
 
 const REPLACE_DEFAULT = true
 const TEMPLATE_DEFAULT = false
+const CONFIG_DEFAULT = false
 const DELETE_ORPHANED_DEFAULT = false
 
 let context
@@ -188,6 +189,7 @@ const parseFiles = (files) => {
 				source: item.source,
 				dest: item.dest || item.source,
 				template: item.template === undefined ? TEMPLATE_DEFAULT : item.template,
+				config: item.config === undefined ? CONFIG_DEFAULT : item.config,
 				replace: item.replace === undefined ? REPLACE_DEFAULT : item.replace,
 				deleteOrphaned: item.deleteOrphaned === undefined ? DELETE_ORPHANED_DEFAULT : item.deleteOrphaned,
 				exclude: parseExclude(item.exclude, item.source)
